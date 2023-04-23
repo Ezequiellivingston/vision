@@ -3,6 +3,7 @@ import { ref, watch } from "vue";
 
 const text = ref("");
 const save = ref([]);
+const positionNew = ref({latitud:'', longitud: ''})
 
 let rec;
 if (!("webkitSpeechRecognition" in window)) {
@@ -44,6 +45,8 @@ function initSeartch(positionObj){
   console.log(positionObj)
   var success = function (position) {
       console.log(position);
+      (positionNew.value.latitud = position.coords.latitude),
+        (positionNew.value.longitud = position.coords.longitude);
     };
   navigator.geolocation.watchPosition(success, function (msg) {
       console.error(msg);
@@ -97,6 +100,7 @@ rec.start();
 
 <template>
   <div @click="mobile" class="container">
+    {{ positionNew }}
     {{ text }}
   </div>
 </template>
