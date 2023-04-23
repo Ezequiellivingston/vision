@@ -57,10 +57,13 @@ function initSeartch(positionObj) {
 
     let distancia = position.coords.latitude + position.coords.longitude;
     let lugar = positionObj.latitud + positionObj.longitud;
+    
+
+    console.log()
 
     if (maxValor.value) {
     } else {
-      maxValor.value = distancia - lugar + 1;
+      maxValor.value = distancia - lugar ;
     }
 
     let max = (maxValor.value * 100) / distancia - lugar;
