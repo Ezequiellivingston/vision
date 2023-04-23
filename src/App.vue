@@ -10,7 +10,9 @@ if (!("webkitSpeechRecognition" in window)) {
   rec = new webkitSpeechRecognition();
   rec.lang = "es-AR";
   rec.continuous = true;
-  rec.interim = true;
+  /* rec.interim = true;  */ 
+  /* rec.interimResults = true; */
+  
   rec.addEventListener("result", iniciar);
 }
 
