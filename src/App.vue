@@ -57,6 +57,7 @@ function iniciar(event) {
     navigator.userAgent.match(/BlackBerry/i) ||
     navigator.userAgent.match(/Windows Phone/i)
   ) {
+    alert('volver')
     rec.start();
   } else {
     console.log("No estás usando un móvil");
