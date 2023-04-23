@@ -10,24 +10,25 @@ if (!("webkitSpeechRecognition" in window)) {
   rec = new webkitSpeechRecognition();
   rec.lang = "es-AR";
   rec.continuous = true;
-  /* rec.interim = true;  */ 
+  rec.interim = true;
   /* rec.interimResults = true; */
-  
-  rec.addEventListener("result", iniciar);
+  rec.onresult = event => {
+    iniciar(event);
+  };
 }
 
 function addCreateObject(obj) {
   let data = {
     name: obj,
-    longitud:'',
-    latitud:''
-  }
+    longitud: "",
+    latitud: "",
+  };
   if (navigator.geolocation) {
     var success = function (position) {
-      console.log(position)
-      data.latitud = position.coords.latitude,
-      data.longitud = position.coords.longitude;      
-      text.value = data
+      console.log(position);
+      (data.latitud = position.coords.latitude),
+        (data.longitud = position.coords.longitude);
+      text.value = data;
     };
     navigator.geolocation.getCurrentPosition(success, function (msg) {
       console.error(msg);
