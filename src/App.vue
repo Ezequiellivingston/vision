@@ -58,24 +58,30 @@ function iniciar(event) {
     navigator.userAgent.match(/Windows Phone/i)
   ) {
     alert("volver");
-    rec.onresult = event => {
-      iniciar(event);
-    };
   } else {
     console.log("No estás usando un móvil");
   }
 }
 
-rec.start();
+function test(){
+  rec.start()
+}
 </script>
 
 <template>
-  <div>
+  <div @click="test" class="container">
     {{ text }}
   </div>
 </template>
 
 <style scoped>
+.container {
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
