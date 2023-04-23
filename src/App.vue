@@ -4,10 +4,12 @@ import { ref, watch } from "vue";
 const text = ref("");
 
 let rec;
-if (!("webkitSpeechRecognition" in window)) {
+if (!("webkitSpeechRecognition" in window )) {
   alert("disculpas, no puedes usar la API");
 } else {
-  rec = new webkitSpeechRecognition();
+  window.SpeechRecognition =
+  window.webkitSpeechRecognition || window.SpeechRecognition;
+  rec = new window.SpeechRecognition();
   rec.lang = "es-AR";
   rec.continuous = true;
   rec.interim = true;
