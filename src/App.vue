@@ -1,9 +1,13 @@
 <script setup>
 import { ref, watch } from "vue";
+import alarma from "../public/alarma.mp3";
+
+let snd = new Audio(alarma);
 
 const text = ref("");
 const save = ref([]);
-const positionNew = ref({latitud:'', longitud: ''})
+const positionNew = ref({ latitud: "", longitud: "" });
+const maxValor = ref();
 
 let rec;
 if (!("webkitSpeechRecognition" in window)) {
@@ -29,11 +33,10 @@ function addCreateObject(obj) {
   };
   if (navigator.geolocation) {
     var success = function (position) {
-      console.log(position);
-      (data.latitud = position.coords.latitude),
-        (data.longitud = position.coords.longitude);
+      data.latitud = position.coords.latitude
+      data.longitud = position.coords.longitude
       text.value = data;
-      save.value.push(data)
+      save.value.push(data);
     };
     navigator.geolocation.getCurrentPosition(success, function (msg) {
       console.error(msg);
@@ -41,38 +44,57 @@ function addCreateObject(obj) {
   }
 }
 
-function initSeartch(positionObj){
-  console.log(positionObj)
+function initSeartch(positionObj) {
+  console.log(positionObj);
   var success = function (position) {
-      console.log(position);
-      (positionNew.value.latitud = position.coords.latitude),
-        (positionNew.value.longitud = position.coords.longitude);
-    };
+    console.log(position);
+    console.log(snd);
+
+    positionNew.value.latitud = position.coords.latitude;
+    positionNew.value.longitud = position.coords.longitude;
+
+    let distancia = position.coords.latitude + position.coords.longitude;
+    let lugar = positionObj.latitud + positionObj.longitud;
+
+    if (maxValor.value) {
+    } else {
+      maxValor.value = distancia - lugar + 1;
+    }
+
+    let max = (maxValor.value * 100) / distancia - lugar;
+
+    if (maxValor) {
+      snd.volume = max / 100;
+      snd.play();
+    }
+  };
   navigator.geolocation.watchPosition(success, function (msg) {
-      console.error(msg);
-    })
+    console.error(msg);
+  });
 }
 
-function searchObject(obj){
-  const data = save.value.find((e)=> {
-    if(e.name.includes(obj)){
-      return e
+function searchObject(obj) {
+  console.log(obj, "buscando", save)
+  const data = save.value.find(e => {
+    if (e.name.includes(obj)) {
+      return e;
     }
-  })
-  initSeartch(data)
+  });
+  initSeartch(data);
 }
 
 function iniciar(event) {
   for (let i = event.resultIndex; i < event.results.length; i++) {
-    text.value = event.results[i][0].transcript;
-    if (event.results[i][0].transcript.includes("guardar")) {
-      if (event.results[i][0].transcript.split("guardar ")[1]) {
-        addCreateObject(event.results[i][0].transcript.split("guardar ")[1]);
+    text.value = event.results[i][0].transcript.toLowerCase();
+    let textSearch = event.results[i][0].transcript.toLowerCase()
+    if (textSearch.includes("guardar")) {
+      if (textSearch.split("guardar ")[1]) {
+        addCreateObject(textSearch.split("guardar ")[1]);
       }
     }
-    if (event.results[i][0].transcript.includes("Buscar")) {
-      if (event.results[i][0].transcript.split("Buscar ")[1]) {
-        searchObject(event.results[i][0].transcript.split("Buscar ")[1]);
+    if (textSearch.includes("buscar")) {
+      if (textSearch.split("buscar ")[1]) {
+        searchObject(textSearch.split("buscar ")[1]);
       }
     }
   }
