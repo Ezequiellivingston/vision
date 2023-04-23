@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 const text = ref("");
 
@@ -45,9 +45,20 @@ function iniciar(event) {
       }
     }
   }
-  rec.onresult = event => {
-    iniciar(event);
-  };
+  let navegador = navigator.userAgent;
+  if (
+    navigator.userAgent.match(/Android/i) ||
+    navigator.userAgent.match(/webOS/i) ||
+    navigator.userAgent.match(/iPhone/i) ||
+    navigator.userAgent.match(/iPad/i) ||
+    navigator.userAgent.match(/iPod/i) ||
+    navigator.userAgent.match(/BlackBerry/i) ||
+    navigator.userAgent.match(/Windows Phone/i)
+  ) {
+    rec.start();
+  } else {
+    console.log("No estás usando un móvil");
+  }
 }
 
 rec.start();
