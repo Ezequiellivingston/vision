@@ -15,17 +15,22 @@ if (!("webkitSpeechRecognition" in window)) {
 }
 
 function addCreateObject(obj) {
-  console.log(obj);
-  /* if (navigator.geolocation) {
+  let data = {
+    name: obj,
+    longitud:'',
+    latitud:''
+  }
+  if (navigator.geolocation) {
     var success = function (position) {
       console.log(position)
-      var latitud = position.coords.latitude,
-        longitud = position.coords.longitude;
+      data.latitud = position.coords.latitude,
+      data.longitud = position.coords.longitude;      
+      text.value = data
     };
     navigator.geolocation.getCurrentPosition(success, function (msg) {
       console.error(msg);
     });
-  } */
+  }
 }
 
 function iniciar(event) {
