@@ -4,11 +4,11 @@ import { ref, watch } from "vue";
 const text = ref("");
 
 let rec;
-if (!("webkitSpeechRecognition" in window )) {
+if (!("webkitSpeechRecognition" in window)) {
   alert("disculpas, no puedes usar la API");
 } else {
   window.SpeechRecognition =
-  window.webkitSpeechRecognition || window.SpeechRecognition;
+    window.webkitSpeechRecognition || window.SpeechRecognition;
   rec = new window.SpeechRecognition();
   rec.lang = "es-AR";
   rec.continuous = true;
@@ -57,8 +57,10 @@ function iniciar(event) {
     navigator.userAgent.match(/BlackBerry/i) ||
     navigator.userAgent.match(/Windows Phone/i)
   ) {
-    alert('volver')
-    rec.start();
+    alert("volver");
+    rec.onresult = event => {
+      iniciar(event);
+    };
   } else {
     console.log("No estás usando un móvil");
   }
