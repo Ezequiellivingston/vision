@@ -45,6 +45,9 @@ function iniciar(event) {
       }
     }
   }
+  rec.onresult = event => {
+    iniciar(event);
+  };
 }
 
 rec.start();
