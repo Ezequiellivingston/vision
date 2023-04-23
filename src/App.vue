@@ -8,6 +8,7 @@ const text = ref("");
 const save = ref([]);
 const positionNew = ref({ latitud: "", longitud: "" });
 const maxValor = ref();
+const test = ref(0)
 
 let rec;
 if (!("webkitSpeechRecognition" in window)) {
@@ -45,7 +46,8 @@ function addCreateObject(obj) {
 }
 
 function initSeartch(positionObj) {
-  console.log(positionObj);
+  snd.play();
+  snd.loop = true
   var success = function (position) {
     console.log(position);
     console.log(snd);
@@ -62,10 +64,9 @@ function initSeartch(positionObj) {
     }
 
     let max = (maxValor.value * 100) / distancia - lugar;
-
+    test.value = (maxValor.value * 100) / distancia - lugar;
     if (maxValor) {
       snd.volume = max / 100;
-      snd.play();
     }
   };
   navigator.geolocation.watchPosition(success, function (msg) {
@@ -122,7 +123,7 @@ rec.start();
 
 <template>
   <div @click="mobile" class="container">
-    {{ positionNew }}
+    {{ test / 100 }}
     {{ text }}
   </div>
 </template>
