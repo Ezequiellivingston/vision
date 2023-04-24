@@ -55,19 +55,22 @@ function initSeartch(positionObj) {
     positionNew.value.latitud = position.coords.latitude;
     positionNew.value.longitud = position.coords.longitude;
 
-    let distancia = position.coords.latitude - position.coords.longitude;
-    let lugar = positionObj.latitud - positionObj.longitud;
-
+    let localActual = position.coords.latitude - position.coords.longitude;
+    let objectoAbuscar = positionObj.latitud - positionObj.longitud;
+    let distancia = localActual - objectoAbuscar == 0 ? 1 : localActual - objectoAbuscar;
     console.log(maxValor.value);
-    if (maxValor.value == null) {
-      maxValor.value = distancia - lugar;
+    if (maxValor.value == null) {   
+        maxValor.value = distancia;
+        
     } else {
     }
 
-    let max = (maxValor.value * 100) / distancia - lugar;
-    test.value = (maxValor.value * 100) / distancia - lugar;
 
-    console.log(maxValor.value, distancia - lugar);
+
+    let max = (maxValor.value * 100) /  distancia;
+    test.value = (maxValor.value * 100) /  distancia;
+
+    
     if (maxValor) {
       snd.volume = max / 100;
     }
