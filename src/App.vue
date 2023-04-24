@@ -7,8 +7,8 @@ let snd = new Audio(alarma);
 const text = ref("");
 const save = ref([]);
 const positionNew = ref({ latitud: "", longitud: "" });
-const maxValor = ref();
-const test = ref(0)
+const maxValor = ref(null);
+const test = ref(0);
 
 let rec;
 if (!("webkitSpeechRecognition" in window)) {
@@ -34,8 +34,8 @@ function addCreateObject(obj) {
   };
   if (navigator.geolocation) {
     var success = function (position) {
-      data.latitud = position.coords.latitude
-      data.longitud = position.coords.longitude
+      data.latitud = position.coords.latitude;
+      data.longitud = position.coords.longitude;
       text.value = data;
       save.value.push(data);
     };
@@ -47,7 +47,7 @@ function addCreateObject(obj) {
 
 function initSeartch(positionObj) {
   snd.play();
-  snd.loop = true
+  snd.loop = true;
   var success = function (position) {
     console.log(position);
     console.log(snd);
@@ -55,19 +55,19 @@ function initSeartch(positionObj) {
     positionNew.value.latitud = position.coords.latitude;
     positionNew.value.longitud = position.coords.longitude;
 
-    let distancia = position.coords.latitude + position.coords.longitude;
-    let lugar = positionObj.latitud + positionObj.longitud;
-    
+    let distancia = position.coords.latitude - position.coords.longitude;
+    let lugar = positionObj.latitud - positionObj.longitud;
 
-    console.log()
-
-    if (maxValor.value) {
+    console.log(maxValor.value);
+    if (maxValor.value == null) {
+      maxValor.value = distancia - lugar;
     } else {
-      maxValor.value = distancia - lugar ;
     }
 
     let max = (maxValor.value * 100) / distancia - lugar;
     test.value = (maxValor.value * 100) / distancia - lugar;
+
+    console.log(maxValor.value, distancia - lugar);
     if (maxValor) {
       snd.volume = max / 100;
     }
@@ -78,7 +78,7 @@ function initSeartch(positionObj) {
 }
 
 function searchObject(obj) {
-  console.log(obj, "buscando", save)
+  console.log(obj, "buscando", save);
   const data = save.value.find(e => {
     if (e.name.includes(obj)) {
       return e;
@@ -90,7 +90,7 @@ function searchObject(obj) {
 function iniciar(event) {
   for (let i = event.resultIndex; i < event.results.length; i++) {
     text.value = event.results[i][0].transcript.toLowerCase();
-    let textSearch = event.results[i][0].transcript.toLowerCase()
+    let textSearch = event.results[i][0].transcript.toLowerCase();
     if (textSearch.includes("guardar")) {
       if (textSearch.split("guardar ")[1]) {
         addCreateObject(textSearch.split("guardar ")[1]);
