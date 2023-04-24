@@ -67,12 +67,18 @@ function initSeartch(positionObj) {
 
 
 
-    let max = (localActual* 100) /  objectoAbuscar;
-    test.value = (localActual * 100) /  objectoAbuscar;
+    let max = (maxValor.value * 100) /  distancia;
+    test.value = (maxValor.value * 100) /  distancia;
 
     
     if (maxValor) {
-      snd.volume = max / 100;
+      if(max / 100 > 1){
+        snd.volume = 1
+      }else if (max / 100 < 0) {
+        snd.volume = 1
+      } else {
+        snd.volume = max / 100 
+      }
     }
   };
   navigator.geolocation.watchPosition(success, function (msg) {
