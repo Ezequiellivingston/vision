@@ -67,8 +67,8 @@ function initSeartch(positionObj) {
 
 
 
-    let max = (maxValor.value * 100) /  distancia;
-    test.value = (maxValor.value * 100) /  distancia;
+    let max = (localActual* 100) /  objectoAbuscar;
+    test.value = (localActual * 100) /  objectoAbuscar;
 
     
     if (maxValor) {
