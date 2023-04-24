@@ -46,7 +46,7 @@ function addCreateObject(obj) {
 }
 
 function initSeartch(positionObj) {
-  snd.play();
+  snd.play()
   snd.loop = true;
   var success = function (position) {
     console.log(position);
@@ -58,17 +58,16 @@ function initSeartch(positionObj) {
     let localActual = position.coords.latitude - position.coords.longitude;
     let objectoAbuscar = positionObj.latitud - positionObj.longitud;
     let distancia = localActual - objectoAbuscar == 0 ? 1 : localActual - objectoAbuscar;
-    console.log(maxValor.value);
+    
     if (maxValor.value == null) {   
-        maxValor.value = distancia;
-        
+        maxValor.value = distancia;        
     } else {
     }
 
 
 
-    let max = (maxValor.value * 100) /  distancia;
-    test.value = (maxValor.value * 100) /  distancia;
+    let max = (distancia * 100) /  maxValor.value;
+    test.value = (distancia * 100) /  maxValor.value;
 
     
     if (maxValor) {
