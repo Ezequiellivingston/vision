@@ -129,13 +129,15 @@ function mobile() {
   }
 }
 
-rec.start();
 </script>
 
 <template>
-  <div @click="mobile" class="container">
+ <!--  <div @click="mobile" class="container">
     {{ test / 100 }}
     {{ text }}
+  </div> -->
+  <div>
+    <iframe src="https://youtube.com/" frameborder="0"></iframe>
   </div>
 </template>
 
