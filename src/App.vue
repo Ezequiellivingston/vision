@@ -137,7 +137,7 @@ function mobile() {
     {{ text }}
   </div> -->
   <div>
-    <iframe src="https://youtube.com/" frameborder="0"></iframe>
+    <iframe width="560" height="315" src="https://www.google.com/" title="YouTube video player" frameborder="0" ></iframe>
   </div>
 </template>
 
