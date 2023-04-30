@@ -9,6 +9,7 @@ const save = ref([]);
 const positionNew = ref({ latitud: "", longitud: "" });
 const maxValor = ref(null);
 const test = ref(0);
+const coordenadas = ref();
 
 let rec;
 if (!("webkitSpeechRecognition" in window)) {
@@ -66,20 +67,33 @@ function getDistanciaMetros(lat1, lon1, lat2, lon2) {
 }
 
 function initSeartch(positionObj) {
+  console.log(positionObj);
   /* snd.play();
   snd.loop = true;
   snd.volume = 1 */
+
   var success = function (position) {
+    let positionSearch = {
+      lat: position.coords.latitude,
+      lon: position.coords.longitude,
+      lat1: positionObj.latitud,
+      lon1: positionObj.longitud,
+    };
+    coordenadas.value = positionSearch;
+
     let distancia = getDistanciaMetros(
-      position.coords.latitude,
-      position.coords.longitude,
-      positionObj.latitud,
-      positionObj.longitud
+      positionSearch.lat,
+      positionSearch.lon,
+      positionSearch.lat1,
+      positionSearch.lon1
     );
-    let truncate = parseFloat(distancia).toFixed(2)
-    speechSynthesis.speak(new SpeechSynthesisUtterance(`El objeto esta a ${truncate} metros`));
-    test.value = distancia
+    let truncate = parseFloat(distancia).toFixed(2);
+    speechSynthesis.speak(
+      new SpeechSynthesisUtterance(`El objeto esta a ${truncate} metros`)
+    );
+    test.value = distancia;
   };
+  console.log(navigator.geolocation);
   navigator.geolocation.watchPosition(success, function (msg) {
     console.error(msg);
   });
@@ -130,13 +144,15 @@ function mobile() {
 }
 
 rec.start();
-
 </script>
 
 <template>
   <div @click="mobile" class="container">
     {{ text.name }}
     {{ test }} metros
+  </div>
+  <div>
+    {{ coordenadas }}
   </div>
 </template>
 
