@@ -76,7 +76,7 @@ function initSeartch(positionObj) {
       positionObj.latitud,
       positionObj.longitud
     );
-    let truncate = distancia.parseFloat(x).toFixed(2)
+    let truncate = parseFloat(distancia).toFixed(2)
     speechSynthesis.speak(new SpeechSynthesisUtterance(`El objeto esta a ${truncate} metros`));
     test.value = distancia
   };
