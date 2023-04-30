@@ -45,40 +45,39 @@ function addCreateObject(obj) {
   }
 }
 
+function getDistanciaMetros(lat1, lon1, lat2, lon2) {
+  let rad = function (x) {
+    return (x * Math.PI) / 180;
+  };
+  var R = 6378.137; //Radio de la tierra en km
+  var dLat = rad(lat2 - lat1);
+  var dLong = rad(lon2 - lon1);
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(rad(lat1)) *
+      Math.cos(rad(lat2)) *
+      Math.sin(dLong / 2) *
+      Math.sin(dLong / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  //aquí obtienes la distancia en metros por la conversion 1Km =1000m
+  var d = R * c * 1000;
+  return d;
+}
+
 function initSeartch(positionObj) {
-  snd.play()
+  snd.play();
   snd.loop = true;
+  snd.volume = 1
   var success = function (position) {
-    console.log(position);
-    console.log(snd);
-
-    positionNew.value.latitud = position.coords.latitude;
-    positionNew.value.longitud = position.coords.longitude;
-
-    let localActual = position.coords.latitude - position.coords.longitude;
-    let objectoAbuscar = positionObj.latitud - positionObj.longitud;
-    let distancia = localActual - objectoAbuscar == 0 ? 1 : localActual - objectoAbuscar;
-    
-    if (maxValor.value == null) {   
-        maxValor.value = distancia;        
-    } else {
-    }
-
-
-
-    let max = (distancia * 100) /  maxValor.value;
-    test.value = (distancia * 100) /  maxValor.value;
-
-    
-    if (maxValor) {
-      if(max / 100 > 1){
-        snd.volume = 1
-      }else if (max / 100 < 0) {
-        snd.volume = 1
-      } else {
-        snd.volume = max / 100 
-      }
-    }
+    let distancia = getDistanciaMetros(
+      position.coords.latitude,
+      position.coords.longitude,
+      positionObj.latitud,
+      positionObj.longitud
+    );
+    console.log(distancia)
+    test.value = distancia
   };
   navigator.geolocation.watchPosition(success, function (msg) {
     console.error(msg);
@@ -129,15 +128,12 @@ function mobile() {
   }
 }
 
+rec.start();
 </script>
 
 <template>
- <!--  <div @click="mobile" class="container">
-    {{ test / 100 }}
-    {{ text }}
-  </div> -->
-  <div>
-    <iframe width="560" height="315" src="https://www.google.com/" title="YouTube video player" frameborder="0" ></iframe>
+  <div @click="mobile" class="container">
+    {{ test }}
   </div>
 </template>
 
