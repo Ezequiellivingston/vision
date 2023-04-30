@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import alarma from "../public/alarma.mp3";
 
 let snd = new Audio(alarma);
@@ -66,9 +66,9 @@ function getDistanciaMetros(lat1, lon1, lat2, lon2) {
 }
 
 function initSeartch(positionObj) {
-  snd.play();
+  /* snd.play();
   snd.loop = true;
-  snd.volume = 1
+  snd.volume = 1 */
   var success = function (position) {
     let distancia = getDistanciaMetros(
       position.coords.latitude,
@@ -77,6 +77,7 @@ function initSeartch(positionObj) {
       positionObj.longitud
     );
     console.log(distancia)
+    speechSynthesis.speak(new SpeechSynthesisUtterance("hola mundo"));
     test.value = distancia
   };
   navigator.geolocation.watchPosition(success, function (msg) {
@@ -129,11 +130,12 @@ function mobile() {
 }
 
 rec.start();
+
 </script>
 
 <template>
   <div @click="mobile" class="container">
-    {{ test }}
+    {{ text.name }}
   </div>
 </template>
 
