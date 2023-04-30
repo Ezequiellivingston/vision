@@ -76,8 +76,8 @@ function initSeartch(positionObj) {
       positionObj.latitud,
       positionObj.longitud
     );
-    console.log(distancia)
-    speechSynthesis.speak(new SpeechSynthesisUtterance("hola mundo"));
+    let truncate = distancia.parseFloat(x).toFixed(2)
+    speechSynthesis.speak(new SpeechSynthesisUtterance(`El objeto esta a ${truncate} metros`));
     test.value = distancia
   };
   navigator.geolocation.watchPosition(success, function (msg) {
@@ -136,6 +136,7 @@ rec.start();
 <template>
   <div @click="mobile" class="container">
     {{ text.name }}
+    {{ test }} metros
   </div>
 </template>
 
