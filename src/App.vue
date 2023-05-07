@@ -157,9 +157,8 @@ let activateNFC = async () => {
       alert("Argh! Cannot read data from the NFC tag. Try another one?");
     });
 
-    ndef.addEventListener("reading", ({ message, serialNumber }) => {
-      alert(`> Serial Number: ${serialNumber}`);
-      alert(`> Records: (${message.records.length})`);
+    ndef.addEventListener("reading", (event) => {
+      test.value = event
     });
   } catch (error) {
     alert("Argh! " + error);
@@ -169,6 +168,9 @@ let activateNFC = async () => {
 
 <template>
   <button @click="activateNFC">iniciar</button>
+  <p>
+    {{ test }}
+  </p>
 </template>
 
 <style scoped>
