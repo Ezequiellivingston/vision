@@ -145,20 +145,22 @@ function mobile() {
 
 /* rec.start(); */
 
-if ('nfc' in navigator) {
-  // La API Web NFC es compatible con el navegador
-  alert('si acepta')
-  navigator.nfc.watch(function(message) {
-    alert('asdasd')
-  // Se ha detectado una etiqueta NFC
-  // Aquí se puede procesar la etiqueta y hacer algo con los datos
+const ndef = new NDEFReader();
+ndef
+  .scan()
+  .then(() => {
+    alert("Escuchando las etiquetas NFC...");
+  })
+  .catch(error => {
+    alert(`No se puede iniciar la lectura NFC: ${error}`);
+  });
+ndef.addEventListener("reading", event => {
+  const message = event.message;
+  alert(`Etiqueta leída: ${JSON.stringify(message)}`);
 });
-} else {
-  alert('no acepta')
-  // La API Web NFC no es compatible con el navegador
-}
-
-
+ndef.addEventListener("error", error => {
+  alert(`Error de lectura NFC: ${error}`);
+});
 </script>
 
 <template>
