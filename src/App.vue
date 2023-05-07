@@ -145,32 +145,30 @@ function mobile() {
 
 /* rec.start(); */
 
-const ndef = new NDEFReader();
-ndef
-  .scan()
-  .then(() => {
-    alert("Escuchando las etiquetas NFC...");
-  })
-  .catch(error => {
-    alert(`No se puede iniciar la lectura NFC: ${error}`);
-  });
-ndef.addEventListener("reading", event => {
-  const message = event.message;
-  alert(`Etiqueta leída: ${JSON.stringify(message)}`);
-});
-ndef.addEventListener("error", error => {
-  alert(`Error de lectura NFC: ${error}`);
-});
+let activateNFC = async () => {
+  alert("User clicked scan button");
+
+  try {
+    const ndef = new NDEFReader();
+    await ndef.scan();
+    alert("> Scan started");
+
+    ndef.addEventListener("readingerror", () => {
+      alert("Argh! Cannot read data from the NFC tag. Try another one?");
+    });
+
+    ndef.addEventListener("reading", ({ message, serialNumber }) => {
+      alert(`> Serial Number: ${serialNumber}`);
+      alert(`> Records: (${message.records.length})`);
+    });
+  } catch (error) {
+    alert("Argh! " + error);
+  }
+}
 </script>
 
 <template>
-  <div @click="mobile" class="container">
-    {{ text.name }}
-    {{ test }} metros
-  </div>
-  <div>
-    {{ coordenadas }}
-  </div>
+  <button @click="activateNFC">iniciar</button>
 </template>
 
 <style scoped>
