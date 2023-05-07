@@ -143,16 +143,18 @@ function mobile() {
   }
 }
 
-rec.start();
+/* rec.start(); */
 
 if ('nfc' in navigator) {
   // La API Web NFC es compatible con el navegador
+  alert('no acepta')
   navigator.nfc.watch(function(message) {
     alert('asdasd')
   // Se ha detectado una etiqueta NFC
   // Aquí se puede procesar la etiqueta y hacer algo con los datos
 });
 } else {
+  alert('si acepta')
   // La API Web NFC no es compatible con el navegador
 }
 
